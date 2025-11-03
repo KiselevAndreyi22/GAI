@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-table-pasports
+      author: kisliashka100
+      changes:
+        - createTable:
+            tableName: work_books
+            columns:
+              - column:
+                  name: snils
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: first_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: patronymic
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: birth_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false

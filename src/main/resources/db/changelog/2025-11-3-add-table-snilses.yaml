@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-table-snilses
+      author: kisliashka100
+      changes:
+        - createTable:
+            tableName: snils
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
+
