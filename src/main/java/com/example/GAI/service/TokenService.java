@@ -1,5 +1,5 @@
 package com.example.GAI.service;
-import com.example.GAI.model.User;
+import com.example.GAI.model.userModel.User;
 
 public interface TokenService {
 

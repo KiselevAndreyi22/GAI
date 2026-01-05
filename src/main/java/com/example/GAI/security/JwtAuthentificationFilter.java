@@ -1,7 +1,8 @@
 package com.example.GAI.security;
 
-import com.example.GAI.service.impl.JwtService;
-import com.example.GAI.service.impl.UserService;
+import com.example.GAI.service.authService.JwtService;
+import com.example.GAI.service.userService.UserService;
+import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -21,7 +23,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthentificationFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
-    public static final String HEADER_STRING = "Authorization";
+    public static final String HEADER_NAME = "Authorization";
     private final JwtService jwtService;
     private final UserService userService;
 
@@ -29,32 +31,40 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader(HEADER_STRING);
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
 
-        if (header == null || !header.startsWith(BEARER_PREFIX)) {
+        // Получаем токен из заголовка
+        var authHeader = request.getHeader(HEADER_NAME);
+        if (authHeader == null || !authHeader.startsWith(BEARER_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = header.substring(BEARER_PREFIX.length());
-        String username = jwtService.extractUsername(token);
+        // Обрезаем префикс и получаем имя пользователя из токена
+        var jwt = authHeader.substring(BEARER_PREFIX.length());
+        var username = jwtService.extractUserName(jwt);
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService.loadUserByUsername(username);
+        if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = userService
+                    .userDetailsService()
+                    .loadUserByUsername(username);
 
-            if (jwtService.validateToken(token, userDetails)) {
+            // Если токен валиден, то аутентифицируем пользователя
+            if (jwtService.isTokenValid(jwt, userDetails)) {
+                SecurityContext context = SecurityContextHolder.createEmptyContext();
 
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
-                        userDetails.getAuthorities());
+                        userDetails.getAuthorities()
+                );
 
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                context.setAuthentication(authToken);
+                SecurityContextHolder.setContext(context);
             }
         }
-
         filterChain.doFilter(request, response);
     }
 }

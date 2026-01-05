@@ -1,7 +1,80 @@
 databaseChangeLog:
+  #- include:
+   #   file: db/changelog/2025-10-30-add-table-users.yaml
+  #- include:
+   #   file: db/changelog/2025-10-31-add-table-pasports.yaml
+  #- include:
+   #   file: db/changelog/2025-11-1-add-table-employees.yaml
+  #- include:
+   #   file: db/changelog/2025-11-3-add-table-snilses.yaml
   - include:
-      file: db/changelog/19-07-25-2248-users.yaml
+      file: db/changelog/2025-11-17-add-table-exam-timetable.yaml
   - include:
-      file: db/changelog/21-07-25-1535-add-table-token.yaml
+      file: db/changelog/2025-11-18-add-table-exam-ticket.yaml
   - include:
-      file: db/changelog/2025-10-31-add-table-pasports.yaml
+      file: db/changelog/2025-11-18-add-table-exam.yaml
+  - include:
+      file: db/changelog/2025-11-18-add-table-question.yaml
+  - include:
+      file: db/changelog/2025-11-19-add-table-exam-answer.yaml
+  - include:
+      file: db/changelog/2025-11-20-add-column-status-in-exam.yaml
+  - include:
+      file: db/changelog/2025-11-20-add-nullable-false-constraint-to-exam-status.yaml
+  - include:
+      file: db/changelog/2025-12-3-add-table-driver-license.yaml
+  - include:
+      file: db/changelog/2025-12-3-add-table-driver-license-category.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-change-unique-constraint-seria-number-in-driver-license.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-table-vehicle.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-table-vehicle-passport.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-table-vehicle-registration-certificate.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-foreign-key-user-id-in-pts.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-foreign-key-user-id-in-sts.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-fk-and-unique-constraint-pts.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-fk-and-unique-constraint-sts.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-table-vehicle-diagnosis-card.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-fk-vehicle-id-in-di-card.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-table-vehicle-title-deed.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-fk-user-id-in-title-deed.yaml
+  - include:
+      file: db/changelog/2025-12-4-add-fk-vehicle-id-in-title-deed.yaml
+  - include:
+      file: db/changelog/2025-12-10-add-column-region-in-pts.yaml
+  - include:
+      file: db/changelog/2025-12-11-add-column-region-in-passport.yaml
+  - include:
+      file: db/changelog/2025-12-11-add-column-region-in-sts.yaml
+  - include:
+      file: db/changelog/2025-12-13-add-nullable-false-cnstr-to-region-in-pasport.yaml
+  - include:
+      file: db/changelog/2025-12-16-change-data-type-seria-number-in-dl.yaml
+  - include:
+      file: db/changelog/2025-12-16-change-type-seria-number-in-passport.yaml
+  - include:
+      file: db/changelog/2025-12-16-change-number-datatype-in-snils.yaml
+  - include:
+      file: db/changelog/2025-12-16-add-generation-for-ser-num-in-dl.yaml
+  - include:
+      file: db/changelog/2025-12-16-drop-table-dv-category.yaml
+  - include:
+      file: db/changelog/2025-12-16-change-type-unit-code-in-dl.yaml
+  - include:
+      file: db/changelog/2025-12-16-change-type-seria-number-in-pts.yaml
+  - include:
+      file: db/changelog/2025-12-16-change-type-seria-number-in-sts.yaml
+  - include:
+      file: db/changelog/2025-12-18-add-table-road-accident.yaml
+
